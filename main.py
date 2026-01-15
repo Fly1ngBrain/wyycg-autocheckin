@@ -160,7 +160,7 @@ if __name__ == "__main__":
                 message = '第{}个账号签到失败，回显状态码为{}，具体错误信息如下：{}'.format(cookies.index(i) + 1, sign_return.status_code, sign_return.text)
                 failure.append(cookie)
                 msg.append(message)
-    outputmsg = str(msg).replace("[", '').replace(']', '').replace(',', '<br>').replace('\'', '')
+    outputmsg = str(msg).replace("[", '').replace(']', '').replace(',', '\n').replace('\'', '')
     teleinfomsg = '''
     感谢使用来自GamerNoTitle的网易云游戏自动签到脚本！
     今日签到结果如下：
@@ -172,11 +172,11 @@ if __name__ == "__main__":
     网易云游戏自动签到脚本: https://github.com/GamerNoTitle/wyycg-autocheckin
     '''.format(len(success), len(failure), len(cookies), outputmsg)
     scinfomsg = '''
-    感谢使用来自<a herf='https://bili33.top'>GamerNoTitle</a>的<a herf='https://github.com/GamerNoTitle/wyycg-autocheckin'>网易云游戏自动签到脚本</a>！<br>
-    今日签到结果如下：<br>
-    成功数量：{0}/{2}<br>
-    失败数量：{1}/{2}<br>
-    具体情况如下：<br>
+    感谢使用来自GamerNoTitle的网易云游戏自动签到脚本！
+    今日签到结果如下：
+    成功数量：{0}/{2}
+    失败数量：{1}/{2}
+    具体情况如下：
     {3}
     GamerNoTitle: https://bili33.top
     网易云游戏自动签到脚本: https://github.com/GamerNoTitle/wyycg-autocheckin
@@ -202,10 +202,13 @@ if __name__ == "__main__":
     网易云游戏自动签到脚本: https://github.com/GamerNoTitle/wyycg-autocheckin
     '''.format(len(success), len(failure), len(cookies), outputmsg)
 
-    send(teleid, teleinfomsg)
-    scsend(sckey, scinfomsg)
-    qqsend(qqkey, qqinfomsg)
-    ppsend(ppkey, ppinfomsg)
     print(teleinfomsg)
     if (len(failure) != 0):
+        # 只有在有失败的情况下才发送通知
+        send(teleid, teleinfomsg)
+        scsend(sckey, scinfomsg)
+        qqsend(qqkey, qqinfomsg)
+        ppsend(ppkey, ppinfomsg)
         raise ScriptRunError
+    else:
+        print('所有账号签到成功，无需发送通知')

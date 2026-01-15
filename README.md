@@ -184,6 +184,49 @@ telepot.exception.UnauthorizedError: ('Unauthorized', 401, {'ok': False, 'error_
 
 ---
 
+## 本仓库改动记录
+
+本仓库基于 [GamerNoTitle/wyycg-autocheckin](https://github.com/GamerNoTitle/wyycg-autocheckin) 进行了以下优化和改动：
+
+### 🔧 功能优化
+
+#### 1. 工作流分离（2026-01-15）
+- **抽离 Keep Alive 策略**：将保持仓库活跃的逻辑从主工作流中分离
+- **创建独立维护工作流**：新增 `KeepAlive.yml` 专门处理维护任务
+- **职责分离**：
+  - `AutoSignin.yml`：专注于自动签到功能
+  - `KeepAlive.yml`：处理仓库保活和工作流清理
+
+#### 2. 推送逻辑优化（2026-01-15）
+- **失败时才推送**：修改为仅在签到失败时发送通知，成功时静默运行
+- **减少干扰**：避免成功时产生不必要的推送通知
+- **保持错误提醒**：失败时仍会通过所有配置的推送渠道发送详细错误信息
+
+#### 3. 消息格式统一（2026-01-15）
+- **纯文本格式**：将所有推送消息从 HTML 格式改为普通文本
+- **格式统一**：所有推送渠道使用一致的文本格式
+- **兼容性提升**：避免 HTML 标签在不同平台显示异常
+
+### 📅 维护计划
+
+- **KeepAlive 工作流**：每7天执行一次（原为每6小时）
+- **自动清理**：保留最近50个工作流运行记录
+- **签到时间**：每天凌晨2点（UTC时间，北京时间上午10点）
+
+### 🚀 使用说明
+
+所有使用方法与原仓库保持一致，变量配置、Cookie获取等步骤完全相同。主要改进在于：
+- 更少的通知干扰
+- 更清晰的工作流结构
+- 更合理的维护频率
+
+---
+
+**原作者信息保留：**
+- 项目原作者：GamerNoTitle
+- 原仓库地址：https://github.com/GamerNoTitle/wyycg-autocheckin
+- 原作者博客：https://bili33.top
+
 ## 历史STAR
 
 ![](https://starchart.cc/GamerNoTitle/wyycg-autocheckin.svg)
